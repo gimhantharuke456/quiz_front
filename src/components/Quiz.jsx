@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import QuizService from "../controllers/quizController";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import QuestionService from "../controllers/quesionController";
 import { Button, Card, Spin, message, Radio } from "antd";
 
 const Quiz = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const [quiz, setQuiz] = useState();
   const [questions, setQuestions] = useState([]);
@@ -68,6 +69,7 @@ const Quiz = () => {
       };
       await QuizService.updateQuiz(quiz._id, body);
       message.success("Quiz submitted successfully");
+      navigate("/success");
     } catch (error) {
       message.error("Error submitting your quiz");
     } finally {

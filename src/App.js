@@ -5,6 +5,8 @@ import StudentQuiz from "./components/StudentQuiz";
 import TeacherQuiz from "./components/TeacherQuiz";
 import "antd/dist/reset.css";
 import Quiz from "./components/Quiz";
+import Success from "./components/Success";
+import MarkingReport from "./components/MarkingReport";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -43,6 +45,8 @@ function App() {
               <Route exact path="/student-quiz" element={<StudentQuiz />} />
               <Route path="/teacher-quiz" element={<TeacherQuiz />} />
               <Route path="/quiz/:id" element={<Quiz />} />
+              <Route path="/success" element={<Success />} />
+              <Route path="/markings" element={<MarkingReport />} />
             </Routes>
           </Content>
           <Footer style={{ textAlign: "center" }}>

@@ -15,6 +15,10 @@ import {
 import Title from "antd/es/typography/Title";
 import QuestionService from "../controllers/quesionController";
 import CreateQuizModal from "./CreateQuizModal";
+import QuizService from "../controllers/quizController";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import moment from "moment";
 
 const { Panel } = Collapse;
 const { Search, TextArea } = Input;
@@ -98,6 +102,44 @@ const TeacherQuiz = () => {
     setIsModalVisible(false);
   };
 
+  const generateMarkings = async () => {
+    try {
+      const response = await QuizService.getAllQuizzes();
+      const report = response.map((quiz) => ({
+        Email: quiz.email,
+        Marks: quiz.marks,
+        Date: moment(quiz.createdAt).format("MMMM DD, YYYY"),
+      }));
+      console.log(report);
+      return report;
+    } catch (error) {
+      console.error("Error generating report:", error);
+      return [];
+    }
+  };
+
+  const generatePDFReport = async () => {
+    const report = await generateMarkings();
+
+    const doc = new jsPDF();
+
+    doc.text("Quiz Report", 10, 10);
+
+    const tableData = report.map(({ Email, Marks, Date }) => [
+      Email,
+      Marks,
+      Date,
+    ]);
+
+    doc.autoTable({
+      startY: 20,
+      head: [["Email", "Marks", "Date"]],
+      body: tableData,
+    });
+
+    doc.save("quiz_report.pdf");
+  };
+
   useEffect(() => {
     try {
       setDataLoading(true);
@@ -121,11 +163,12 @@ const TeacherQuiz = () => {
         <div style={{ display: "flex", gap: 8 }}>
           <Button
             type="primary"
-            onClick={() => {
-              setCreateQuizModalOpen(true);
-            }}
+            // onClick={() => {
+            //   generatePDFReport();
+            // }}
+            href="/markings"
           >
-            Mark Report
+            Marking Report
           </Button>
           <Button
             type="primary"
