@@ -4,6 +4,7 @@ import { Layout, Menu } from "antd";
 import StudentQuiz from "./components/StudentQuiz";
 import TeacherQuiz from "./components/TeacherQuiz";
 import "antd/dist/reset.css";
+import Quiz from "./components/Quiz";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -41,6 +42,7 @@ function App() {
             <Routes>
               <Route exact path="/student-quiz" element={<StudentQuiz />} />
               <Route path="/teacher-quiz" element={<TeacherQuiz />} />
+              <Route path="/quiz/:id" element={<Quiz />} />
             </Routes>
           </Content>
           <Footer style={{ textAlign: "center" }}>
